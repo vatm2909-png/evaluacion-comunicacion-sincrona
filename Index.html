@@ -1,0 +1,108 @@
+<style>
+:root{--ink:#203044;--accent:#245b78;--soft:#edf4f7;--line:#d5e0e7;--paper:#fff;--good:#176b45;--bad:#9b2c2c}
+*{box-sizing:border-box}body{margin:0;background:#f3f6f8;color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+header{background:linear-gradient(120deg,#173b53,#2e7188);color:white;padding:36px 20px}
+.wrap{max-width:960px;margin:auto;padding:0 18px}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:700;opacity:.85}
+h1{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.15;margin:.5rem 0}header p{max-width:720px;margin:.8rem 0 0}
+main{padding:24px 0 50px}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;margin:0 0 18px;box-shadow:0 5px 20px #18354a0a}
+h2{margin:0 0 12px;font-size:1.35rem}h3{font-size:1.05rem;margin:18px 0 8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.pill{background:var(--soft);border-radius:999px;padding:5px 10px;font-size:.86rem}
+.question{padding:16px 0;border-top:1px solid var(--line)}.question:first-of-type{border-top:0}.question p{font-weight:650;margin:0 0 9px}
+label.option{display:block;padding:8px 10px;margin:5px 0;border:1px solid var(--line);border-radius:9px;cursor:pointer}
+label.option:hover{background:#f5f9fb}input[type=radio]{margin-right:8px}
+button{background:var(--accent);color:white;border:0;border-radius:9px;padding:11px 16px;font-size:1rem;font-weight:650;cursor:pointer;margin:8px 8px 0 0}
+button.secondary{background:#e9f0f4;color:var(--ink)}button:hover{filter:brightness(.95)}
+.result{padding:14px;border-radius:10px;background:var(--soft);margin-top:14px}.correct{color:var(--good);font-weight:700}.incorrect{color:var(--bad);font-weight:700}
+input[type=text],textarea,select{width:100%;border:1px solid #bacbd5;border-radius:8px;padding:10px;font:inherit;background:white}
+textarea{min-height:90px;resize:vertical}.field{margin:14px 0}.field label{display:block;font-weight:650;margin-bottom:5px}
+table{width:100%;border-collapse:collapse;font-size:.93rem}th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}th{background:var(--soft)}
+.rubric{overflow-x:auto}.small{font-size:.9rem;color:#506577}.total{font-weight:750;font-size:1.1rem}
+footer{text-align:center;color:#536777;padding:20px;font-size:.88rem}
+@media(max-width:600px){.card{padding:16px}table{min-width:650px}.rubric{overflow-x:auto}}
+@media print{body{background:white}.card{box-shadow:none;break-inside:avoid}button{display:none}header{background:#245b78!important;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="eyebrow">Taller docente · Entornos virtuales</div>
+<h1>Evaluación formativa: comunicación síncrona</h1>
+<p>Selecciono, aplico y mejoro mi comunicación síncrona. Instrumento de práctica para docentes que comienzan a enseñar en entornos virtuales.</p>
+<div class="meta"><span class="pill">Duración de evaluación: 40 min</span><span class="pill">Cuestionario: 10 puntos</span><span class="pill">Caso práctico: 20 puntos</span></div>
+</div></header>
+<main class="wrap">
+<section class="card">
+<h2>Propósito de la evaluación</h2>
+<p>Valorar si el participante identifica herramientas de comunicación síncrona, reconoce sus funcionalidades, propone estrategias para favorecer la participación y plantea soluciones ante dificultades técnicas o pedagógicas.</p>
+<p><strong>Enfoque:</strong> formativo. La retroalimentación sirve para reconocer fortalezas y decidir qué aspectos conviene reforzar. Este prototipo permite practicar y preparar los instrumentos para su implementación en Moodle; no registra respuestas en un aula virtual.</p>
+</section>
+<section class="card" id="quiz">
+<h2>Actividad 1. Cuestionario de conocimientos</h2>
+<p>Selecciona una respuesta por pregunta. Cada respuesta correcta vale 1 punto.</p>
+<div id="questions"></div>
+<button onclick="gradeQuiz()">Revisar respuestas</button><button class="secondary" onclick="resetQuiz()">Reiniciar</button>
+<div id="quizResult" aria-live="polite"></div>
+</section>
+<section class="card">
+<h2>Actividad 2. Caso práctico</h2>
+<p><strong>Situación:</strong> en tu clase virtual algunos estudiantes participan constantemente, otros permanecen en silencio y dos tienen problemas de conexión. Necesitas explicar un tema, fomentar el intercambio de ideas y comprobar la comprensión.</p>
+<p><strong>Consigna:</strong> escribe una propuesta de 250 a 350 palabras que responda a los cuatro apartados. Puedes usar los campos para organizar tus ideas y después copiar la propuesta a un documento o a Moodle.</p>
+<div class="field"><label for="tool">1. Herramienta síncrona y dos funcionalidades</label><textarea id="tool" placeholder="Ej.: Teams o Meet; compartir pantalla, chat, encuestas..."></textarea></div>
+<div class="field"><label for="strategies">2. Dos estrategias pedagógicas para promover participación y colaboración</label><textarea id="strategies" placeholder="Describe qué harías y cómo participarían los estudiantes."></textarea></div>
+<div class="field"><label for="challenge">3. Un desafío y una solución viable</label><textarea id="challenge" placeholder="Considera conectividad, accesibilidad, participación o manejo de la herramienta."></textarea></div>
+<div class="field"><label for="evidence">4. ¿Cómo comprobarías la comprensión?</label><textarea id="evidence" placeholder="Ej.: pregunta de verificación, encuesta rápida, explicación breve del estudiante..."></textarea></div>
+<button onclick="evaluateCase()">Comprobar lista de preparación</button>
+<button class="secondary" onclick="window.print()">Imprimir / guardar como PDF</button>
+<div id="caseResult" aria-live="polite"></div>
+<p class="small">La lista automática solo comprueba que hayas completado los apartados; no sustituye la valoración docente con la rúbrica.</p>
+</section>
+<section class="card">
+<h2>Rúbrica del caso práctico (20 puntos)</h2>
+<div class="rubric"><table>
+<thead><tr><th>Criterio</th><th>Excelente</th><th>Satisfactorio</th><th>En desarrollo</th><th>Inicial</th></tr></thead>
+<tbody>
+<tr><th>Herramienta y funcionalidades (5)</th><td>Herramienta pertinente y dos funciones explicadas (5)</td><td>Herramienta adecuada; explicación parcial (4)</td><td>Identificación o explicación limitada (2–3)</td><td>No identifica una opción pertinente (0–1)</td></tr>
+<tr><th>Estrategias pedagógicas (7)</th><td>Dos estrategias claras y viables (7)</td><td>Dos estrategias pertinentes, parcialmente desarrolladas (5–6)</td><td>Una pertinente o dos poco desarrolladas (3–4)</td><td>Sin estrategias aplicables (0–2)</td></tr>
+<tr><th>Desafío y solución (4)</th><td>Desafío relevante y solución viable (4)</td><td>Solución parcialmente desarrollada (3)</td><td>Solución poco clara (2)</td><td>Sin solución pertinente (0–1)</td></tr>
+<tr><th>Comprobación del aprendizaje (4)</th><td>Técnica concreta y uso explicado (4)</td><td>Técnica pertinente con explicación parcial (3)</td><td>Menciona técnica sin explicar su aplicación (2)</td><td>No propone técnica pertinente (0–1)</td></tr>
+</tbody></table></div>
+<h3>Ponderación global</h3>
+<table><tbody><tr><th>Evidencia</th><th>Puntos</th><th>Peso</th></tr><tr><td>Cuestionario</td><td>10</td><td>33,3 %</td></tr><tr><td>Caso práctico con rúbrica</td><td>20</td><td>66,7 %</td></tr><tr><th>Total</th><th>30</th><th>100 %</th></tr></tbody></table>
+<p class="small">Calificación equivalente sobre 100 = (puntos obtenidos ÷ 30) × 100. En el enfoque formativo, la calificación se acompaña de retroalimentación que oriente la mejora.</p>
+</section>
+<section class="card">
+<h2>Implementación sugerida en Moodle</h2>
+<ol>
+<li>Crea una actividad Cuestionario e introduce las 10 preguntas, las opciones, las respuestas correctas y la retroalimentación.</li>
+<li>Crea una actividad Tarea con el caso práctico y sus cuatro apartados.</li>
+<li>Configura la rúbrica con los criterios y puntajes indicados.</li>
+<li>Prueba la actividad como docente antes de compartirla con los participantes.</li>
+</ol>
+<p><a href="https://docs.moodle.org/en/Quiz_activity" target="_blank" rel="noopener">Guía oficial de Cuestionario en Moodle</a> · <a href="https://docs.moodle.org/en/Assignment_activity" target="_blank" rel="noopener">Guía oficial de Tarea en Moodle</a></p>
+</section>
+<section class="card">
+<h2>Referencias</h2>
+<p>Black, P., &amp; Wiliam, D. (2009). Developing the theory of formative assessment. <em>Educational Assessment, Evaluation and Accountability, 21</em>(1), 5–31. https://doi.org/10.1007/s11092-008-9068-5</p>
+<p>Moodle. (s. f.). <em>Assignment activity</em>. MoodleDocs. https://docs.moodle.org/en/Assignment_activity</p>
+<p>Moodle. (s. f.). <em>Quiz activity</em>. MoodleDocs. https://docs.moodle.org/en/Quiz_activity</p>
+</section>
+</main>
+<footer>Prototipo interactivo de evaluación formativa · Preparado para adaptar a Moodle</footer>
+<script>
+const qs=[
+["¿Qué caracteriza principalmente a la comunicación síncrona?",["Los participantes interactúan en tiempo real.","Cada participante responde cuando lo desea, sin coincidir en el tiempo.","La comunicación ocurre exclusivamente mediante documentos.","No requiere interacción entre los participantes."],0,"La comunicación síncrona permite la interacción simultánea."],
+["¿Cuál es un ejemplo de comunicación asíncrona?",["Una videoconferencia en directo.","Un debate oral por videollamada.","Un foro en el que cada participante publica en distintos momentos.","Una encuesta respondida durante una reunión en vivo."],2,"En un foro asíncrono no es necesario coincidir en el tiempo."],
+["¿Cuál de estas herramientas permite realizar videoconferencias?",["Microsoft Teams.","Una hoja de cálculo sin conexión.","Un editor de imágenes sin funciones colaborativas.","Un lector de archivos PDF."],0,"Teams ofrece reuniones virtuales y funciones de interacción en tiempo real."],
+["¿Qué funcionalidad permite mostrar a los estudiantes cómo utilizar un programa?",["Silenciar a todos los participantes.","Compartir pantalla.","Cerrar la reunión.","Desactivar el chat permanentemente."],1,"Compartir pantalla facilita las demostraciones guiadas."],
+["¿Qué estrategia favorece la participación de quienes hablan poco?",["Permitir que solo hable el docente.","Evitar las preguntas durante la clase.","Usar el chat, turnos de intervención y encuestas breves.","Mantener los micrófonos abiertos sin moderación."],2,"Combinar canales amplía las oportunidades de intervenir."],
+["¿Para qué sirven las salas de grupos pequeños?",["Para impedir el trabajo colaborativo.","Para desarrollar debates y tareas en equipos reducidos.","Para eliminar las instrucciones del docente.","Para reemplazar todos los recursos del curso."],1,"Las salas pequeñas facilitan la discusión y la resolución conjunta."],
+["¿Cuál es una estrategia adecuada para una lluvia de ideas?",["Recopilar ideas en el chat o una pizarra colaborativa y organizarlas.","Solicitar que una sola persona aporte todas las ideas.","Evitar que los participantes vean las contribuciones.","Finalizar antes de recibir respuestas."],0,"La recopilación y organización de aportes permite construir ideas colectivamente."],
+["Un estudiante tiene problemas de conexión. ¿Qué solución es más pertinente?",["Excluirlo automáticamente.","Exigir video encendido.","Ofrecer una alternativa de participación, como el chat o una actividad posterior.","Cancelar todas las actividades."],2,"Las alternativas ayudan a reducir barreras tecnológicas."],
+["¿Cuál es una práctica recomendable al moderar una clase síncrona?",["Improvisar sin objetivos.","Establecer reglas de participación, tiempos e instrucciones claras.","Evitar la interacción.","Usar todas las funciones al mismo tiempo."],1,"La planificación y las reglas claras contribuyen a una interacción organizada."],
+["¿Qué permite comprobar la comprensión durante una sesión?",["Cerrar sin preguntar.","Evaluar únicamente la asistencia.","Aplicar una pregunta de verificación o encuesta y ajustar la explicación.","Suponer que todos comprendieron porque se conectaron."],2,"Las preguntas de verificación ofrecen evidencias para adaptar la enseñanza."]
+];
+const letters=["A","B","C","D"];
+document.getElementById("questions").innerHTML=qs.map((q,i)=>`<div class="question"><p>${i+1}. ${q[0]}</p>${q[1].map((o,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}">${letters[j]}. ${o}</label>`).join("")}<div id="fb${i}"></div></div>`).join("");
+function gradeQuiz(){let score=0,answered=0;qs.forEach((q,i)=>{let el=document.querySelector(`input[name="q${i}"]:checked`),fb=document.getElementById("fb"+i);if(el)answered++;if(el&&+el.value===q[2]){score++;fb.innerHTML=`<p class="correct">Correcto.</p><p>${q[3]}</p>`}else{fb.innerHTML=`<p class="incorrect">${el?"Revisa esta respuesta.":"Sin responder. "}Respuesta correcta: ${letters[q[2]]}.</p><p>${q[3]}</p>`}});document.getElementById("quizResult").innerHTML=`<div class="result"><strong>Resultado: ${score}/10 puntos.</strong><br>Respondiste ${answered} de 10 preguntas. Revisa la retroalimentación para identificar temas que conviene reforzar.</div>`;document.getElementById("quizResult").scrollIntoView({behavior:"smooth",block:"center"})}
+function resetQuiz(){document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);qs.forEach((q,i)=>document.getElementById("fb"+i).innerHTML="");document.getElementById("quizResult").innerHTML=""}
+function evaluateCase(){let ids=["tool","strategies","challenge","evidence"],names=["herramienta y funcionalidades","estrategias pedagógicas","desafío y solución","comprobación del aprendizaje"],done=ids.map(id=>document.getElementById(id).value.trim().length>0);document.getElementById("caseResult").innerHTML=`<div class="result"><strong>${done.filter(Boolean).length}/4 apartados completados.</strong><ul>${names.map((n,i)=>`<li>${done[i]?"✓":"○"} ${n}</li>`).join("")}</ul>${done.every(Boolean)?"Ya puedes revisar tu propuesta con la rúbrica.":"Completa los apartados pendientes antes de revisar la propuesta."}</div>`}
+</script>
